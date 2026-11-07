@@ -166,17 +166,52 @@ This confirms that the Ubuntu server can be administered remotely without access
 - SSH hardening and key-based authentication remain future tasks.
 - Firewall configuration and security policies have not yet been implemented.
 
-## 9. Next Planned Activities
+---
 
-1. Configure and verify UFW firewall.
-2. Configure SSH key-based authentication.
-3. Review SSH security settings.
-4. Establish a static IP addressing strategy.
-5. Prepare Linux infrastructure services for integration with Windows Server.
-6. Document network architecture and service dependencies.
+**Deployment result:** Successful.
+
+## 9. Firewall Configuration and Security
+
+UFW (Uncomplicated Firewall) was configured as the server's host-based firewall.
+
+Configuration:
+
+```bash
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow OpenSSH
+sudo ufw enable
+```
+
+Verification:
+
+```bash
+sudo ufw status verbose
+```
+
+Result:
+- Firewall active and enabled at startup.
+- Incoming traffic denied by default.
+- Outgoing traffic allowed.
+- SSH (TCP 22) explicitly permitted for IPv4 and IPv6.
+- HTTP (TCP 80) and HTTPS (TCP 443) not currently permitted.
+
+Additional security considerations:
+- Administrative access requires authentication.
+- SSH uses encrypted communication.
+- Credentials must never be stored in public GitHub repositories.
+- SSH key-based authentication and further hardening remain future tasks.
+
+## 10. Next Planned Activities
+
+1. Configure SSH key-based authentication.
+2. Review SSH security settings.
+3. Establish a static IP addressing strategy.
+4. Prepare Linux infrastructure services for integration with Windows Server.
+5. Document network architecture and service dependencies.
 
 ---
 
 **Deployment result:** Successful.
 
-**Project milestone:** First Linux server deployed and remotely accessible through SSH.
+**Project milestone:** Linux server deployed, remotely accessible through SSH, and protected by an active host-based firewall.
