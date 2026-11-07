@@ -22,7 +22,7 @@
 | Disk partitioning | LVM |
 | Network adapter | NAT |
 | Network interface | ens33 |
-| IPv4 address | 192.168.15.128 (DHCP) |
+| IPv4 address | <server-ip> (DHCP) |
 
 ## 3. Operating System Installation
 
@@ -62,7 +62,7 @@ Purpose: Inspect network interfaces and assigned IP addresses.
 
 Result:
 - Interface: ens33
-- IPv4: 192.168.15.128
+- IPv4: <server-ip>
 - Address assignment: DHCP
 
 ### 4.3 Internet connectivity
