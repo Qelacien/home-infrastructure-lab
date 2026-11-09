@@ -9,21 +9,23 @@ The Northstar Engineering GmbH lab uses a VMware NAT network to provide connecti
 | Network | `192.168.15.0/24` |
 | Subnet mask | `255.255.255.0` |
 | VMware NAT gateway | `192.168.15.2` |
+| DHCP server | `NS-DC-01 (192.168.15.11)` |
 | DHCP address pool | `192.168.15.160–192.168.15.254` |
 | Linux server | `192.168.15.10` |
-| Future Windows Server | `192.168.15.11` |
+| Domain Controller | `192.168.15.11` |
+| DNS server | `192.168.15.11` |
 
-Addresses below `.160` are reserved for planned static infrastructure assignments.
+Addresses below `.160` are excluded from dynamic DHCP assignment and reserved for infrastructure and static addressing.
 
 ## 2. VMware Network Configuration
 
 - Network adapter: VMnet8
 - Network type: NAT
-- DHCP pool adjusted to start at `192.168.15.160`
-- NAT gateway: `192.168.15.2`
 - Subnet: `192.168.15.0/24`
+- NAT gateway: `192.168.15.2`
+- VMware DHCP service disabled after migration to Windows DHCP.
 
-The DHCP pool was moved to reduce the risk of address conflicts with manually configured infrastructure devices.
+The original VMware DHCP pool was configured to use `192.168.15.160–192.168.15.254`. DHCP services were subsequently migrated to the Windows Server Domain Controller.
 
 ## 3. Ubuntu Static IP Configuration
 
@@ -66,6 +68,9 @@ The following checks confirmed the configuration:
 - Default gateway: `192.168.15.2`
 - Connected subnet: `192.168.15.0/24`
 - Route protocol: static
+- Gateway connectivity successfully tested using ping.
+- External connectivity verified using `ping 8.8.8.8`.
+- DNS resolution verified using `ping google.com`.
 
 SSH remote administration was successfully tested from Windows PowerShell using the existing SSH alias:
 
@@ -75,15 +80,16 @@ The Windows SSH client configuration was updated to use the new static address.
 
 ## 5. Current Status
 
-The Ubuntu server now uses a persistent static IPv4 configuration and remains accessible remotely through SSH key authentication.
+The lab network uses a central VMware NAT network with static addressing for infrastructure servers and Windows DHCP for dynamic client addressing.
 
-DNS and external connectivity are configured but still require dedicated verification.
+The Ubuntu server uses a persistent static IPv4 configuration and remains accessible remotely through SSH key authentication.
+
+DNS resolution and external connectivity have been successfully verified.
 
 ## 6. Next Steps
 
-- Verify DNS resolution and external connectivity.
-- Continue network infrastructure development.
-- Deploy Windows Server and Active Directory.
-- Integrate Linux and Windows services into the lab network.
+- Implement additional network segmentation using VLANs.
+- Introduce routing and firewall infrastructure.
+- Integrate additional infrastructure services into the lab network.
 
-**Milestone:** M2 – Network Infrastructure (in progress)
+**Milestone:** M2 – Network Infrastructure (completed)
